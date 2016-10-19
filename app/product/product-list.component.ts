@@ -1,13 +1,23 @@
-import { Component } from 'angular2/core'
+import { Component, OnInit } from 'angular2/core';
+import {IProduct} from './product';
+import { ProductFilterPipe } from './product-filter.pipe';
+import { StarComponent } from 'app/shared/star.component';
 
 @Component({
     selector : 'pm-products',
-    templateUrl : './app/product/product-list.component.html'
+    templateUrl : './app/product/product-list.component.html',
+    styleUrls : ['./app/product/product-list.component.css'],
+    pipes: [ProductFilterPipe],
+    directives: [StarComponent]
 })
 
-export class ProductListComponent {
-    pageTitle: string = 'Produc tList';
-    products: any[] = [
+export class ProductListComponent implements OnInit {
+    pageTitle: string = 'Produc List';
+    imageWidth: number = 50;
+    imageMargin: number = 2;
+    showImage: boolean = false;
+    listFilter: string = 'cart';
+    products: IProduct[] = [
         {
             "productId": 1,
             "productName": "Leaf Rake",
@@ -29,4 +39,16 @@ export class ProductListComponent {
             "imageUrl": "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png"
         }
     ];
+    
+    toggleImage(): void {
+        this.showImage = !this.showImage;
+    }
+    
+    ngOnInit(): void{
+        console.log('OnInit');        
+    }
+    
+    onRatingClicked(message: string): void{
+        this.pageTitle = 'Product List: ' + message;
+    }
 }
